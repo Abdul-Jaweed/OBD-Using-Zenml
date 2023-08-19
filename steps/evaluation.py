@@ -7,6 +7,13 @@ from sklearn.base import ClassifierMixin
 from typing import Tuple
 from typing_extensions import Annotated
 
+
+import mlflow
+from zenml.client import Client
+
+experiment_tracker = Client().active_stack.experiment_tracker
+
+
 # @step
 # def evaluate_model(model: ClassifierMixin,
 #                    X_test: pd.DataFrame,
@@ -38,7 +45,7 @@ from typing_extensions import Annotated
 
 
 
-@step
+@step(experiment_tracker=experiment_tracker.name)
 def evaluate_model(model: ClassifierMixin,
                    X_test: pd.DataFrame,
                    y_test: pd.DataFrame) -> Tuple[Annotated[float, "accuracy"]]:
@@ -53,6 +60,7 @@ def evaluate_model(model: ClassifierMixin,
         
         acc_class = ACCURACY()
         accuracy = acc_class.calculate_scores(y_test, prediction)
+        mlflow.log_metric("accuracy", accuracy)
         
         return (accuracy,)  # Return the accuracy as a single-element tuple
     except Exception as e:
