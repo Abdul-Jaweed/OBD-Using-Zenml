@@ -31,17 +31,7 @@ class DataPreProcessStrategy(DataStrategy):
         """
         
         try:
-            data = data.drop(
-                [
-                    "Lane_Departure",
-                    "Forward_Collision",
-                    "Tire_Pressure_FL",
-                    "Tire_Pressure_FR",
-                    "Blind_Spot_Detection",
-                    "Tire_Pressure_RL",
-                    "Tire_Pressure_RR"
-                ],
-                axis=1)
+            data = data.drop("CO2", axis=1)
             
             
           # Adding the code to remove the null values or fill the null values
@@ -51,6 +41,19 @@ class DataPreProcessStrategy(DataStrategy):
             logging.error("Error in preprocessing data: {}".format(e))
             raise e
           
+
+# drop(
+#                 [
+#                     "Lane_Departure",
+#                     "Forward_Collision",
+#                     "Tire_Pressure_FL",
+#                     "Tire_Pressure_FR",
+#                     "Blind_Spot_Detection",
+#                     "Tire_Pressure_RL",
+#                     "Tire_Pressure_RR"
+#                 ],
+#                 axis=1)
+
 
 
 
